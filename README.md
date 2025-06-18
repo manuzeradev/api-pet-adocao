@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>README - API Pets Adoção</title>
 </head>
 <body>
   <h1>🐶 API Pets Adoção</h1>
