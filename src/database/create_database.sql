@@ -26,7 +26,7 @@ CREATE TABLE adoptions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     pet_id INT NOT NULL,
-    adoption_date DATE NOT NULL,
+    adoption_date VARCHAR(20) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (pet_id) REFERENCES pets(id) ON DELETE CASCADE
 );

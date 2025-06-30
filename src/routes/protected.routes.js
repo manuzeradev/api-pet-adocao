@@ -4,23 +4,21 @@ const router = express.Router();
 const { authenticateToken } = require('../middlewares/auth.middleware');
 const { authorizeRoles } = require('../middlewares/auth.middleware');
 
-const userController = require('../controllers/userController');
-const petController = require('../controllers/petController');
-const adoptionController = require('../controllers/adoptionController');
+const ProtectedController = require('../controllers/protected.controller');
 
 
-router.get('/users', authenticateToken, authorizeRoles('admin'), userController.getAllUsers);
-router.get('/users/:id', authenticateToken, userController.getUserById);
-router.put('/users/:id', authenticateToken, userController.updateUser);
-router.delete('/users/:id', authenticateToken, authorizeRoles('admin'), userController.deleteUser);
+router.get('/users', authenticateToken, authorizeRoles('admin'), ProtectedController.getUsers);
+router.get('/users/:id', authenticateToken, ProtectedController.getUserById);
+router.put('/users/:id', authenticateToken, ProtectedController.modifyUser);
+router.delete('/users/:id', authenticateToken, authorizeRoles('admin'), ProtectedController.removeUser);
 
-router.get('/pets', authenticateToken, authorizeRoles('admin'), petController.getAllPets);
-router.get('/pets/:id', authenticateToken, authorizeRoles('admin'), petController.getPetById);
-router.post('/pets', authenticateToken, authorizeRoles('admin'), petController.createPet);
-router.put('/pets/:id', authenticateToken, authorizeRoles('admin'), petController.updatePet);
-router.delete('/pets/:id', authenticateToken, authorizeRoles('admin'), petController.deletePet);
+router.get('/pets', authenticateToken, authorizeRoles('admin'), ProtectedController.getAllPets);
+router.get('/pets/:id', authenticateToken, authorizeRoles('admin'), ProtectedController.getPetById);
+router.post('/pets', authenticateToken, authorizeRoles('admin'), ProtectedController.createPet);
+router.put('/pets/:id', authenticateToken, authorizeRoles('admin'), ProtectedController.modifyPet);
+router.delete('/pets/:id', authenticateToken, authorizeRoles('admin'), ProtectedController.removePet);
 
-router.get('/adoptions', authenticateToken, authorizeRoles('admin'), adoptionController.getAllAdoptions);
-router.post('/adoptions', authenticateToken, authorizeRoles('adopter'), adoptionController.createAdoption);
+router.get('/adoptions', authenticateToken, authorizeRoles('admin'), ProtectedController.getAllAdoptions);
+router.post('/adoptions', authenticateToken, authorizeRoles('adopter'), ProtectedController.createAdoption);
 
 module.exports = router;

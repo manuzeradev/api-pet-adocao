@@ -1,0 +1,168 @@
+@baseURL = http://localhost:3000
+
+###
+# Rota pública: Obter animais disponíveis para adoção
+GET {{baseURL}}/public/pets/available
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Cadastro de novo usuário: Administrador
+# Cria um novo usuário com perfil de 'admin'.
+POST {{baseURL}}/auth/users
+Content-Type: application/json
+
+{
+    "name": "Admin Teste",
+    "email": "admin.teste@email.com",
+    "password": "senhaSegura123",
+    "phone": "54912345678",
+    "role": "admin"
+}
+
+###
+# Cadastro de novo usuário: Adotante
+# Cria um novo usuário com perfil de 'adopter'.
+POST {{baseURL}}/auth/users
+Content-Type: application/json
+
+{
+    "name": "Adotante Teste",
+    "email": "adotante.teste@email.com",
+    "password": "senhaSegura123",
+    "phone": "54987654321",
+    "role": "adopter"
+}
+
+###
+# Login do usuário administrador
+# Copie o token JWT da resposta para usar em rotas protegidas.
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "admin.teste@email.com",
+    "password": "senhaSegura123"
+}
+
+###
+# Login do usuário adotante
+# Copie o token JWT da resposta para usar em rotas protegidas.
+POST {{baseURL}}/auth/login
+Content-Type: application/json
+
+{
+    "email": "adotante.teste@email.com",
+    "password": "senhaSegura123"
+}
+
+
+## Testes de Rotas Protegidas (Requer Autenticação)
+
+###
+# Listar todos os usuários
+# Requer token de autenticação.
+GET {{baseURL}}/protected/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Buscar usuário por ID
+# Substitua '1' pelo ID de um usuário existente.
+GET {{baseURL}}/protected/users/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Atualizar dados de um usuário
+# Substitua '1' pelo ID do usuário a ser atualizado.
+PUT {{baseURL}}/protected/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+Content-Type: application/json
+
+{
+    "name": "Admin Teste Atualizado",
+    "email": "admin.atualizado@email.com",
+    "password": "novaSenhaSegura",
+    "phone": "54911112222"
+}
+
+###
+# Remover um usuário
+# Substitua '3' pelo ID do usuário "Usuario a Excluir" criado anteriormente.
+DELETE {{baseURL}}/protected/users/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Listar todos os animais (pets), incluindo adotados
+# Requer token de autenticação.
+GET {{baseURL}}/protected/pets
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Buscar animal (pet) por ID
+# Substitua '1' pelo ID de um animal existente.
+GET {{baseURL}}/protected/pets/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Cadastrar um novo animal (pet)
+# Requer token de autenticação (geralmente admin, mas dependendo da sua regra de negócio).
+POST {{baseURL}}/protected/pets
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+Content-Type: application/json
+
+{
+    "name": "Belinha",
+    "age": 1,
+    "species": "gato",
+    "size": "small",
+    "description": "Gata dócil e brincalhona, busca um lar amoroso."
+}
+
+###
+# Atualizar os dados de um animal (pet)
+# Substitua '1' pelo ID do animal a ser atualizado.
+PUT {{baseURL}}/protected/pets/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+Content-Type: application/json
+
+{
+    "name": "Belinha Atualizada",
+    "age": 2,
+    "species": "gato",
+    "size": "medium",
+    "description": "Gata cresceu, mas continua muito dócil."
+}
+
+###
+# Remover um animal (pet) do sistema
+# O animal deve ter o status 'available' (disponível). Substitua '16' pelo ID de um animal adequado.
+DELETE {{baseURL}}/protected/pets/16
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Listar todas as adoções realizadas
+# Requer token de autenticação.
+GET {{baseURL}}/protected/adoptions
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
+
+###
+# Realizar a adoção de um animal (pet)
+# Requer token de autenticação.
+# user_id: ID do adotante
+# pet_id: ID do animal a ser adotado (deve estar 'available')
+POST {{baseURL}}/protected/adoptions
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6ImFkb3B0ZXIiLCJpYXQiOjE3NTEzMjYxOTEsImV4cCI6MTc1MTMyOTc5MX0.2qjjW4Ep-lXrgWWJzeKK617KBYi0T5RESxWjcaFU3t8
+Content-Type: application/json
+
+{
+    "user_id": 2, 
+    "pet_id": 2, 
+    "adoption_date": "30/06/2025" 
+}

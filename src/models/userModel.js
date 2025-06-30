@@ -1,20 +1,53 @@
 const db = require('../config/database');
-// Importa a conexão pool com o banco de dados
+
 class UserModel {
-    // Busca um usuário pelo email
-    static async findByEmail(email) {
-        const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
+    static async retrieveByEmail(email) {
+        const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
         return rows[0];
     }
-    // Cria um novo usuário
-    static async create(user) {
-        const { email, password, role } = user;
+
+    static async insert(userData) {
+        const { name, email, password, phone, role } = userData;
+        const finalRole = role || 'adopter'; 
+
         const [result] = await db.query(
-            'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
-            [email, password, role]
+            "INSERT INTO users (name, email, password, phone, role) VALUES (?, ?, ?, ?, ?)",
+            [name, email, password, phone, finalRole]
         );
-        return result.insertId; // Retorna o ID do usuário criado
+        return result.insertId;
+    }
+
+    static async getAll() {
+        const [rows] = await db.query(
+            "SELECT id, name, email, phone, role FROM users;"
+        );
+        return rows;
+    }
+
+    static async getById(id) {
+        const [rows] = await db.query(
+            `SELECT id, name, email, phone, role FROM users WHERE id = ?`,
+            [id]
+        );
+        return rows[0];
+    }
+
+    static async modify(id, updatedData) {
+        const { name, email, password, phone } = updatedData;
+        
+        const [result] = await db.query(
+            "UPDATE users SET name = ?, email = ?, password = ?, phone = ? WHERE id = ?",
+            [name, email, password, phone, id]
+        );
+        return result.affectedRows > 0;
+    }
+
+    static async remove(id) {
+        const [result] = await db.query(
+            "DELETE FROM users WHERE id = ?",
+            [id]
+        );
+        return result.affectedRows > 0;
     }
 }
 module.exports = UserModel;
-// Exporta a classe UserModel para ser usada nos services
