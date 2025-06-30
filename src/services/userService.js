@@ -1,3 +1,7 @@
+const bcrypt = require('bcryptjs'); // Biblioteca para criptografia de senhas
+const jwt = require('jsonwebtoken'); // Biblioteca para geração de tokens JWT
+const UserModel = require("../models/userModel"); // Model responsável pelo acesso à tabela de usuários no banco
+
 class UserService {
     static async registerUser(user) {
         const { email, password, role } = user;
