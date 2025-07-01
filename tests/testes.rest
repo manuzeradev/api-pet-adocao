@@ -90,7 +90,7 @@ Content-Type: application/json
 ###
 # Remover um usuário
 # Substitua '3' pelo ID do usuário "Usuario a Excluir" criado anteriormente.
-DELETE {{baseURL}}/protected/users/3
+DELETE {{baseURL}}/protected/users/1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUxMzI1Mzk2LCJleHAiOjE3NTEzMjg5OTZ9.lcmKECYNNEoIXdpgWvs7kMT4u-u5LVCpGPOiCDnAHvE
 
